@@ -21,8 +21,10 @@ class PromptController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Prompt $prompt, Request $request)
+    public function index(Request $request, Prompt $prompts)
     {
+        // This will stop execution and show you the collection contents
+        // dd($prompts->toArray());
         $prompts = $request->user()->prompts()->latest()->get();
 
         return view('prompts.index', compact('prompts'));
@@ -76,10 +78,6 @@ class PromptController extends Controller
         return redirect()->route('prompts.index')->with('success', 'Prompt updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-        $prompt->save();
-     */
     public function destroy(Prompt $prompt)
     {
         $prompt->delete();

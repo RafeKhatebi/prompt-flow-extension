@@ -24,7 +24,7 @@ class StorePromptRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'tags' => 'nullable|array',
+            'tags' => 'nullable|string',
             'tags.*' => 'string|max:50',
 
         ];
