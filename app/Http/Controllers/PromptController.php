@@ -23,9 +23,14 @@ class PromptController extends Controller
      */
     public function index(Request $request, Prompt $prompts)
     {
-        // This will stop execution and show you the collection contents
-        // dd($prompts->toArray());
-        $prompts = $request->user()->prompts()->latest()->get();
+
+        if (Auth::user()->role === 'admin') {
+            // Admin gets ALL prompts from ALL users
+            $prompts = Prompt::with('user')->latest()->get();
+        } else {
+            // Regular user gets only THEIR prompts
+            $prompts = $request->user()->prompts()->latest()->get();
+        }
 
         return view('prompts.index', compact('prompts'));
 
