@@ -24,7 +24,7 @@ class PromptController extends Controller
     public function index(Request $request, Prompt $prompts)
     {
 
-        if (Auth::user()->role === 'admin') {
+        if ($request()->user()->role === 'admin') {
             // Admin gets ALL prompts from ALL users
             $prompts = Prompt::with('user')->latest()->get();
         } else {
