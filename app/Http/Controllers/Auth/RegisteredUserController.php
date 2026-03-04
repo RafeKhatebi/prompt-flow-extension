@@ -19,9 +19,9 @@ class RegisteredUserController extends Controller
      */
     public function index(): View
     {
-        return view('users.index', [
-            'users' => User::all(),
-        ]);
+        $users = User::paginate(10);
+        // Make sure 'users' is a string inside compact
+        return view('users.index', compact('users'));
     }
 
     /**

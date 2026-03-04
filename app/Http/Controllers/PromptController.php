@@ -26,10 +26,10 @@ class PromptController extends Controller
 
         if ($request->user()->role === 'admin') {
             // Admin gets ALL prompts from ALL users
-            $prompts = Prompt::with('user')->latest()->get();
+            $prompts = Prompt::with('user')->latest()->paginate(15);
         } else {
             // Regular user gets only THEIR prompts
-            $prompts = $request->user()->prompts()->latest()->get();
+            $prompts = $request->user()->prompts()->latest()->paginate(15);
         }
 
         return view('prompts.index', compact('prompts'));
