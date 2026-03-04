@@ -12,10 +12,9 @@ class Prompt extends Model
         'content',
         'tags',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
-    
-    }
+}

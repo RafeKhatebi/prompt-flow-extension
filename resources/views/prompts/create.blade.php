@@ -1,7 +1,3 @@
-{{-- $table->string('title');
-$table->text('content');
-$table->string('tags')->nullable(); --}}
-
 <x-app-layout>
     <div class="container mx-auto p-6 col-md-8">
         <div class="card w-full bg-dark-200 shadow-xl">

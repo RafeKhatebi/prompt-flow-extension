@@ -27,19 +27,17 @@
                     <div class="text-3xl font-bold dark:text-white">{{ Auth::user()->prompts()->count() }}</div>
                 </div>
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border-l-4 border-indigo-500">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <div class="text-sm font-medium text-gray-500 uppercase">Quick Actions</div>
-                        <div class="flex flex-wrap gap-4">
-                            <a href="{{ route('prompts.index') }}"
-                                class="inline-flex items-center bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 transition ease-in-out duration-150">
-                                Manage Prompts
-                            </a>
+                    <div class="text-sm font-medium text-gray-500 uppercase">Quick Actions</div>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="{{ route('prompts.index') }}"
+                            class="inline-flex items-center bg-indigo-600 border px-2 py-2 border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 transition ease-in-out duration-150">
+                            Manage Prompts
+                        </a>
 
-                            <a href="{{ route('prompts.create') }}"
-                                class="inline-flex items-center  bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white transition ease-in-out duration-150">
-                                + New Prompt
-                            </a>
-                        </div>
+                        <a href="{{ route('prompts.create') }}"
+                            class="inline-flex items-center  bg-gray-800 dark:bg-gray-200 px-2 py-2 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white transition ease-in-out duration-150">
+                            + New Prompt
+                        </a>
                     </div>
                 </div>
             </div>

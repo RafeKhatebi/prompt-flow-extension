@@ -6,8 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePromptRequest extends FormRequest
 {
- 
-
     /**
      * Determine if the user is authorized to make this request.
      */

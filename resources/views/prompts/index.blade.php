@@ -117,10 +117,6 @@
             </div>
         </div>
     </div>
-
-    {{-- new js codes --}}
-    {{-- At the bottom of prompts/index.blade.php --}}
-    <!-- Add this to your layout head or right above your script -->
     <script src="https://cdn.jsdelivr.net"></script>
     <script>
         // Search functionality
