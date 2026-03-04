@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
 // Regular auth protection
 
 Route::resource('prompts', PromptController::class)->middleware('auth');
+Route::get('prompts-export', [PromptController::class, 'export'])->middleware('auth')->name('prompts.export');
+Route::post('prompts-import', [PromptController::class, 'import'])->middleware('auth')->name('prompts.import');
 // Admin only protection
 Route::resource('users', RegisteredUserController::class)
     ->middleware(['auth', 'can:admin-only']); 

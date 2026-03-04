@@ -89,4 +89,31 @@ class PromptController extends Controller
 
         return redirect()->route('prompts.index')->with('success', 'Prompt deleted successfully.');
     }
+
+    public function export()
+    {
+        $prompts = Auth::user()->prompts()->get(['title', 'content', 'tags']);
+        $filename = 'prompts_'.date('Y-m-d_His').'.json';
+
+        return response()->json($prompts)
+            ->header('Content-Disposition', 'attachment; filename="'.$filename.'"');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate(['file' => 'required|file|mimes:json']);
+
+        $content = file_get_contents($request->file('file')->getRealPath());
+        $prompts = json_decode($content, true);
+
+        foreach ($prompts as $promptData) {
+            Auth::user()->prompts()->create([
+                'title' => $promptData['title'] ?? 'Imported Prompt',
+                'content' => $promptData['content'] ?? '',
+                'tags' => $promptData['tags'] ?? null,
+            ]);
+        }
+
+        return redirect()->route('prompts.index')->with('success', count($prompts).' prompts imported successfully.');
+    }
 }

@@ -8,7 +8,6 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
         <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
         <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
-        {{-- <link rel="stylesheet" href="{{ asset('asset/css/style-rtl.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -29,9 +28,25 @@
 
             <!-- Page Content -->
             <main>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
                 {{ $slot }}
             </main>
         </div>
+        <script src="{{ asset('asset/js/bootstrap.bundle.min.js') }}"></script>
+        <script>
+            setTimeout(() => {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 3000);
+        </script>
     </body>
 
 </html>

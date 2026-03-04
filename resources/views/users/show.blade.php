@@ -7,7 +7,7 @@
                         <h2 class="h4 mb-0">User Details</h2>
                         <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-secondary">Back to List</a>
                     </div>
-                    
+
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col-sm-4 text-muted">Full Name</div>
