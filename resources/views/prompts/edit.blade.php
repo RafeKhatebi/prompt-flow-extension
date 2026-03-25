@@ -26,7 +26,10 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="pf-label" for="content">Prompt Content</label>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="pf-label mb-0" for="content">Prompt Content</label>
+                        <span id="charCount" style="font-size:12px; color:#adb5bd;"></span>
+                    </div>
                     <textarea id="content" name="content" rows="8" class="pf-input" required style="resize:vertical;">{{ old('content', $prompt->content) }}</textarea>
                 </div>
 
@@ -42,4 +45,14 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const textarea = document.getElementById('content');
+        const counter  = document.getElementById('charCount');
+        textarea.addEventListener('input', () => {
+            const len = textarea.value.length;
+            counter.textContent = `${len.toLocaleString()} chars · ~${Math.ceil(len / 4).toLocaleString()} tokens`;
+        });
+        textarea.dispatchEvent(new Event('input'));
+    </script>
 </x-app-layout>

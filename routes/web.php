@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/', function () {
-//     return redirect('register');
-// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -22,16 +19,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Prompts the user to log in or register when they access the dashboard without being authenticated. The 'auth' middleware checks if the user is logged in, and if not
-// Regular auth protection
-
 Route::resource('prompts', PromptController::class)->middleware('auth');
 Route::get('prompts-export', [PromptController::class, 'export'])->middleware('auth')->name('prompts.export');
 Route::post('prompts-import', [PromptController::class, 'import'])->middleware('auth')->name('prompts.import');
-// Admin only protection
+Route::post('prompts/{prompt}/favorite', [PromptController::class, 'toggleFavorite'])->middleware('auth')->name('prompts.favorite');
+Route::post('prompts/{prompt}/duplicate', [PromptController::class, 'duplicate'])->middleware('auth')->name('prompts.duplicate');
+Route::post('prompts/{prompt}/use', [PromptController::class, 'incrementUse'])->middleware('auth')->name('prompts.use');
+
 Route::resource('users', RegisteredUserController::class)
-    ->middleware(['auth', 'can:admin-only']); 
+    ->middleware(['auth', 'can:admin-only']);
 
-// The parameter name {user} must match $user in the controller
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

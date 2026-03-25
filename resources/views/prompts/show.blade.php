@@ -32,12 +32,18 @@
 
         {{-- Actions --}}
         <div class="d-flex gap-2 flex-wrap">
-            <button onclick="copyContent()" class="btn-pf-success text-decoration-none">
+            <button id="copyBtn" onclick="copyContent()" class="btn-pf-success text-decoration-none">
                 <i class="bi bi-clipboard me-1"></i>Copy Content
             </button>
             <a href="{{ route('prompts.edit', $prompt) }}" class="btn-pf-ghost text-decoration-none">
                 <i class="bi bi-pencil me-1"></i>Edit
             </a>
+            <form action="{{ route('prompts.duplicate', $prompt) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn-pf-ghost">
+                    <i class="bi bi-copy me-1"></i>Duplicate
+                </button>
+            </form>
             <form action="{{ route('prompts.destroy', $prompt) }}" method="POST" onsubmit="return confirm('Delete this prompt?')">
                 @csrf @method('DELETE')
                 <button type="submit" class="btn-pf-danger">
@@ -51,11 +57,19 @@
         function copyContent() {
             const content = document.getElementById('promptContent').innerText;
             navigator.clipboard.writeText(content).then(() => {
-                const btn = event.target.closest('button');
+                fetch('{{ route('prompts.use', $prompt) }}', {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                });
+                const btn = document.getElementById('copyBtn');
                 const orig = btn.innerHTML;
                 btn.innerHTML = '<i class="bi bi-check me-1"></i>Copied!';
                 setTimeout(() => btn.innerHTML = orig, 2000);
             });
         }
+
+        @if(session('copy_on_load'))
+        window.addEventListener('DOMContentLoaded', () => copyContent());
+        @endif
     </script>
 </x-app-layout>

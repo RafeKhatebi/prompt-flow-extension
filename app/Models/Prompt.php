@@ -11,6 +11,12 @@ class Prompt extends Model
         'title',
         'content',
         'tags',
+        'is_favorite',
+        'use_count',
+    ];
+
+    protected $casts = [
+        'is_favorite' => 'boolean',
     ];
 
     public function user()

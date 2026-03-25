@@ -25,7 +25,10 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="pf-label" for="content">Prompt Content</label>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="pf-label mb-0" for="content">Prompt Content</label>
+                        <span id="charCount" style="font-size:12px; color:#adb5bd;">0 chars · ~0 tokens</span>
+                    </div>
                     <textarea id="content" name="content" rows="8" class="pf-input" required placeholder="Paste your prompt here…" style="resize:vertical;">{{ old('content') }}</textarea>
                 </div>
 
@@ -34,11 +37,27 @@
                     <input id="tags" type="text" name="tags" value="{{ old('tags') }}" class="pf-input" placeholder="e.g. writing, email, professional">
                 </div>
 
-                <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
                     <a href="{{ route('prompts.index') }}" class="btn-pf-ghost text-decoration-none">Cancel</a>
-                    <button type="submit" class="btn-pf-primary">Save Prompt</button>
+                    <div class="d-flex gap-2">
+                        <button type="submit" name="copy_after_save" value="1" class="btn-pf-ghost">
+                            <i class="bi bi-clipboard me-1"></i>Save & Copy
+                        </button>
+                        <button type="submit" class="btn-pf-primary">Save Prompt</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        const textarea = document.getElementById('content');
+        const counter  = document.getElementById('charCount');
+        textarea.addEventListener('input', () => {
+            const len = textarea.value.length;
+            counter.textContent = `${len.toLocaleString()} chars · ~${Math.ceil(len / 4).toLocaleString()} tokens`;
+        });
+        // Trigger on load for old() value
+        textarea.dispatchEvent(new Event('input'));
+    </script>
 </x-app-layout>

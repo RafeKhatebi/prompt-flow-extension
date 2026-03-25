@@ -16,10 +16,20 @@
         </div>
     </x-slot>
 
-    {{-- Search --}}
-    <div class="pf-search-wrap mb-4" style="max-width: 420px;">
-        <i class="bi bi-search"></i>
-        <input type="text" id="searchPrompts" class="pf-input" placeholder="Search by title, content, or tags…">
+    {{-- Search + Sort --}}
+    <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+        <div class="pf-search-wrap" style="max-width: 380px; flex:1;">
+            <i class="bi bi-search"></i>
+            <input type="text" id="searchPrompts" class="pf-input" placeholder="Search by title, content, or tags…">
+        </div>
+        <form method="GET" action="{{ route('prompts.index') }}" class="d-flex align-items-center gap-2">
+            <select name="sort" class="pf-input" style="width:auto;" onchange="this.form.submit()">
+                <option value="latest"    {{ $sort === 'latest'    ? 'selected' : '' }}>Newest first</option>
+                <option value="oldest"    {{ $sort === 'oldest'    ? 'selected' : '' }}>Oldest first</option>
+                <option value="most_used" {{ $sort === 'most_used' ? 'selected' : '' }}>Most used</option>
+                <option value="favorites" {{ $sort === 'favorites' ? 'selected' : '' }}>Favorites first</option>
+            </select>
+        </form>
     </div>
 
     @if(Auth::user()->role === 'admin')
@@ -32,6 +42,7 @@
                         <th>Title</th>
                         <th>Author</th>
                         <th>Tags</th>
+                        <th>Uses</th>
                         <th>Updated</th>
                         <th style="text-align:right;">Actions</th>
                     </tr>
@@ -40,9 +51,13 @@
                     @forelse($prompts as $prompt)
                         <tr class="prompt-item">
                             <td style="color:#adb5bd; font-size:12px;">{{ $loop->iteration }}</td>
-                            <td style="font-weight:500;">{{ $prompt->title }}</td>
+                            <td style="font-weight:500;">
+                                @if($prompt->is_favorite)<i class="bi bi-star-fill me-1" style="color:#f59e0b;"></i>@endif
+                                {{ $prompt->title }}
+                            </td>
                             <td style="color:#6c757d;">{{ $prompt->user->name }}</td>
                             <td>@if($prompt->tags)<span class="pf-tag">{{ $prompt->tags }}</span>@else<span style="color:#ccc;">—</span>@endif</td>
+                            <td style="color:#6c757d; font-size:12px;">{{ $prompt->use_count }}</td>
                             <td style="color:#6c757d; font-size:12px;">{{ $prompt->updated_at->diffForHumans() }}</td>
                             <td>
                                 <div class="d-flex justify-content-end gap-2">
@@ -55,7 +70,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="6" class="pf-empty"><i class="bi bi-collection"></i>No prompts found.</td></tr>
+                        <tr><td colspan="7" class="pf-empty"><i class="bi bi-collection"></i>No prompts found.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -66,11 +81,21 @@
         {{-- User Card View --}}
         <div id="promptContainer">
             @forelse($prompts as $prompt)
-                <div class="pf-card p-4 mb-3 prompt-item" data-id="{{ $prompt->id }}">
+                <div class="pf-card p-4 mb-3 prompt-item {{ $prompt->is_favorite ? 'pf-favorite' : '' }}" data-id="{{ $prompt->id }}">
                     <div class="row align-items-center g-3">
                         <div class="col-md-8">
-                            <div style="font-size:12px; color:#adb5bd; margin-bottom:4px;">#{{ $prompt->id }} · {{ $prompt->updated_at->diffForHumans() }}</div>
-                            <h5 style="font-size:15px; font-weight:600; margin-bottom:6px;">{{ $prompt->title }}</h5>
+                            <div style="font-size:12px; color:#adb5bd; margin-bottom:4px;">
+                                #{{ $prompt->id }} · {{ $prompt->updated_at->diffForHumans() }}
+                                @if($prompt->use_count > 0)
+                                    · <i class="bi bi-clipboard-check"></i> {{ $prompt->use_count }}
+                                @endif
+                            </div>
+                            <h5 style="font-size:15px; font-weight:600; margin-bottom:6px;">
+                                @if($prompt->is_favorite)
+                                    <i class="bi bi-star-fill me-1" style="color:#f59e0b;"></i>
+                                @endif
+                                {{ $prompt->title }}
+                            </h5>
                             <p style="font-size:13px; color:#6c757d; margin-bottom:8px; line-height:1.6;">{{ Str::limit($prompt->content, 160) }}</p>
                             @if($prompt->tags)
                                 <span class="pf-tag">{{ $prompt->tags }}</span>
@@ -78,9 +103,23 @@
                         </div>
                         <div class="col-md-4">
                             <div class="d-flex flex-wrap gap-2 justify-content-md-end">
+                                {{-- Favorite toggle --}}
+                                <form action="{{ route('prompts.favorite', $prompt) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn-pf-ghost" title="{{ $prompt->is_favorite ? 'Unfavorite' : 'Favorite' }}">
+                                        <i class="bi {{ $prompt->is_favorite ? 'bi-star-fill' : 'bi-star' }}" style="{{ $prompt->is_favorite ? 'color:#f59e0b;' : '' }}"></i>
+                                    </button>
+                                </form>
                                 <a href="{{ route('prompts.show', $prompt) }}" class="btn-pf-ghost text-decoration-none">View</a>
                                 <a href="{{ route('prompts.edit', $prompt) }}" class="btn-pf-ghost text-decoration-none">Edit</a>
-                                <button onclick="injectPrompt({{ \Illuminate\Support\Js::from($prompt->content) }}, {{ $prompt->id }})" class="btn-pf-success">
+                                {{-- Duplicate --}}
+                                <form action="{{ route('prompts.duplicate', $prompt) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn-pf-ghost" title="Duplicate">
+                                        <i class="bi bi-copy"></i>
+                                    </button>
+                                </form>
+                                <button onclick="copyPrompt({{ \Illuminate\Support\Js::from($prompt->content) }}, {{ $prompt->id }})" class="btn-pf-success">
                                     <i class="bi bi-clipboard me-1"></i>Copy
                                 </button>
                                 <form action="{{ route('prompts.destroy', $prompt) }}" method="POST" onsubmit="return confirm('Delete this prompt?')">
@@ -123,6 +162,10 @@
         </div>
     </div>
 
+    <style>
+        .pf-favorite { border-left: 3px solid #f59e0b; }
+    </style>
+
     <script>
         // Real-time search
         document.getElementById('searchPrompts').addEventListener('input', function () {
@@ -132,8 +175,13 @@
             });
         });
 
-        // Inject / copy with highlight
-        function injectPrompt(content, id) {
+        function copyPrompt(content, id) {
+            // Track usage
+            fetch(`/prompts/${id}/use`, {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content }
+            });
+
             document.querySelectorAll('.prompt-item').forEach(el => el.classList.remove('selected'));
             const card = document.querySelector(`[data-id="${id}"]`);
             if (card) card.classList.add('selected');
