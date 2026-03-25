@@ -7,25 +7,31 @@
     <form method="post" action="{{ route('password.update') }}">
         @csrf @method('put')
 
-        @if($errors->updatePassword->any())
-            <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:.75rem 1rem; font-size:13px; color:#dc2626; margin-bottom:1rem;">
-                @foreach($errors->updatePassword->all() as $error)<div>{{ $error }}</div>@endforeach
+        @if ($errors->updatePassword->any())
+            <div
+                style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:.75rem 1rem; font-size:13px; color:#dc2626; margin-bottom:1rem;">
+                @foreach ($errors->updatePassword->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
             </div>
         @endif
 
         <div class="mb-3">
             <label class="pf-label" for="current_password">Current Password</label>
-            <input id="current_password" type="password" name="current_password" class="pf-input" autocomplete="current-password" placeholder="••••••••">
+            <input id="current_password" type="password" name="current_password" class="pf-input"
+                autocomplete="current-password" placeholder="••••••••">
         </div>
 
         <div class="mb-3">
             <label class="pf-label" for="new_password">New Password</label>
-            <input id="new_password" type="password" name="password" class="pf-input" autocomplete="new-password" placeholder="Min. 8 characters">
+            <input id="new_password" type="password" name="password" class="pf-input" autocomplete="new-password"
+                placeholder="Min. 8 characters">
         </div>
 
         <div class="mb-4">
             <label class="pf-label" for="password_confirmation">Confirm New Password</label>
-            <input id="password_confirmation" type="password" name="password_confirmation" class="pf-input" autocomplete="new-password" placeholder="••••••••">
+            <input id="password_confirmation" type="password" name="password_confirmation" class="pf-input"
+                autocomplete="new-password" placeholder="••••••••">
         </div>
 
         <div class="d-flex align-items-center gap-3">

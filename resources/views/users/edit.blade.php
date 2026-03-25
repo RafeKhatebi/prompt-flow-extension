@@ -10,9 +10,12 @@
 
     <div style="max-width: 600px;">
         <div class="pf-card p-4">
-            @if($errors->any())
-                <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:.75rem 1rem; font-size:13px; color:#dc2626; margin-bottom:1.25rem;">
-                    @foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
+            @if ($errors->any())
+                <div
+                    style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:.75rem 1rem; font-size:13px; color:#dc2626; margin-bottom:1.25rem;">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
                 </div>
             @endif
 
@@ -22,24 +25,28 @@
                 <div class="row g-3 mb-3">
                     <div class="col-sm-6">
                         <label class="pf-label" for="name">Full Name</label>
-                        <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" class="pf-input" required>
+                        <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}"
+                            class="pf-input" required>
                     </div>
                     <div class="col-sm-6">
                         <label class="pf-label" for="username">Username</label>
-                        <input id="username" type="text" name="username" value="{{ old('username', $user->username) }}" class="pf-input" required>
+                        <input id="username" type="text" name="username"
+                            value="{{ old('username', $user->username) }}" class="pf-input" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="pf-label" for="email">Email Address</label>
-                    <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" class="pf-input" required>
+                    <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}"
+                        class="pf-input" required>
                 </div>
 
                 <div class="mb-4">
                     <label class="pf-label" for="role">Role</label>
                     <select id="role" name="role" class="pf-input" style="cursor:pointer;">
                         <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>User</option>
-                        <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin
+                        </option>
                     </select>
                 </div>
 

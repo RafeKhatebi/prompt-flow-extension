@@ -11,17 +11,20 @@
     <div style="max-width: 560px;">
         <div class="pf-card p-4 mb-3">
             <div class="d-flex align-items-center gap-3 mb-4">
-                <div style="width:48px; height:48px; border-radius:50%; background:#5b5ef4; color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:700;">
+                <div
+                    style="width:48px; height:48px; border-radius:50%; background:#5b5ef4; color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:700;">
                     {{ strtoupper(substr($user->name, 0, 1)) }}
                 </div>
                 <div>
                     <div style="font-weight:600; font-size:1rem;">{{ $user->name }}</div>
                     <div style="font-size:13px; color:#6c757d;">{{ $user->email }}</div>
                 </div>
-                @if($user->role === 'admin')
-                    <span style="margin-left:auto; background:#fef3c7; color:#92400e; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px;">Admin</span>
+                @if ($user->role === 'admin')
+                    <span
+                        style="margin-left:auto; background:#fef3c7; color:#92400e; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px;">Admin</span>
                 @else
-                    <span style="margin-left:auto; background:#f0f0ff; color:#5b5ef4; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px;">User</span>
+                    <span
+                        style="margin-left:auto; background:#f0f0ff; color:#5b5ef4; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px;">User</span>
                 @endif
             </div>
 

@@ -29,4 +29,4 @@ Route::post('prompts/{prompt}/use', [PromptController::class, 'incrementUse'])->
 Route::resource('users', RegisteredUserController::class)
     ->middleware(['auth', 'can:admin-only']);
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

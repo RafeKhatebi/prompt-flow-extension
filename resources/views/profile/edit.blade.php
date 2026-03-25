@@ -13,7 +13,10 @@
         </div>
     </div>
 
-    @if($errors->userDeletion->isNotEmpty())
-        <script>document.addEventListener('DOMContentLoaded', () => new bootstrap.Modal(document.getElementById('deleteAccountModal')).show());</script>
+    @if ($errors->userDeletion->isNotEmpty())
+        <script>
+            document.addEventListener('DOMContentLoaded', () => new bootstrap.Modal(document.getElementById(
+                'deleteAccountModal')).show());
+        </script>
     @endif
 </x-app-layout>

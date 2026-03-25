@@ -10,9 +10,12 @@
 
     <div style="max-width: 680px;">
         <div class="pf-card p-4">
-            @if($errors->any())
-                <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:.75rem 1rem; font-size:13px; color:#dc2626; margin-bottom:1.25rem;">
-                    @foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
+            @if ($errors->any())
+                <div
+                    style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:.75rem 1rem; font-size:13px; color:#dc2626; margin-bottom:1.25rem;">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
                 </div>
             @endif
 
@@ -22,7 +25,8 @@
 
                 <div class="mb-3">
                     <label class="pf-label" for="title">Title</label>
-                    <input id="title" type="text" name="title" value="{{ old('title', $prompt->title) }}" class="pf-input" required>
+                    <input id="title" type="text" name="title" value="{{ old('title', $prompt->title) }}"
+                        class="pf-input" required>
                 </div>
 
                 <div class="mb-3">
@@ -34,8 +38,10 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="pf-label" for="tags">Tags <span style="color:#adb5bd; font-weight:400;">(optional)</span></label>
-                    <input id="tags" type="text" name="tags" value="{{ old('tags', $prompt->tags) }}" class="pf-input" placeholder="e.g. writing, email">
+                    <label class="pf-label" for="tags">Tags <span
+                            style="color:#adb5bd; font-weight:400;">(optional)</span></label>
+                    <input id="tags" type="text" name="tags" value="{{ old('tags', $prompt->tags) }}"
+                        class="pf-input" placeholder="e.g. writing, email">
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between">
@@ -48,7 +54,7 @@
 
     <script>
         const textarea = document.getElementById('content');
-        const counter  = document.getElementById('charCount');
+        const counter = document.getElementById('charCount');
         textarea.addEventListener('input', () => {
             const len = textarea.value.length;
             counter.textContent = `${len.toLocaleString()} chars · ~${Math.ceil(len / 4).toLocaleString()} tokens`;

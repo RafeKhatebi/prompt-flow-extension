@@ -16,10 +16,11 @@
             </div>
 
             {{-- Title --}}
-            <h1 style="font-size:1.4rem; font-weight:700; margin-bottom:1rem; letter-spacing:-0.3px;">{{ $prompt->title }}</h1>
+            <h1 style="font-size:1.4rem; font-weight:700; margin-bottom:1rem; letter-spacing:-0.3px;">
+                {{ $prompt->title }}</h1>
 
             {{-- Tags --}}
-            @if($prompt->tags)
+            @if ($prompt->tags)
                 <div class="mb-3">
                     <span class="pf-tag">{{ $prompt->tags }}</span>
                 </div>
@@ -44,7 +45,8 @@
                     <i class="bi bi-copy me-1"></i>Duplicate
                 </button>
             </form>
-            <form action="{{ route('prompts.destroy', $prompt) }}" method="POST" onsubmit="return confirm('Delete this prompt?')">
+            <form action="{{ route('prompts.destroy', $prompt) }}" method="POST"
+                onsubmit="return confirm('Delete this prompt?')">
                 @csrf @method('DELETE')
                 <button type="submit" class="btn-pf-danger">
                     <i class="bi bi-trash me-1"></i>Delete
@@ -59,7 +61,9 @@
             navigator.clipboard.writeText(content).then(() => {
                 fetch('{{ route('prompts.use', $prompt) }}', {
                     method: 'POST',
-                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
                 });
                 const btn = document.getElementById('copyBtn');
                 const orig = btn.innerHTML;
@@ -68,8 +72,8 @@
             });
         }
 
-        @if(session('copy_on_load'))
-        window.addEventListener('DOMContentLoaded', () => copyContent());
+        @if (session('copy_on_load'))
+            window.addEventListener('DOMContentLoaded', () => copyContent());
         @endif
     </script>
 </x-app-layout>

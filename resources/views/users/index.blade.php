@@ -21,17 +21,22 @@
                         <td style="color:#6c757d;">{{ $user->email }}</td>
                         <td style="color:#6c757d;">{{ $user->username }}</td>
                         <td>
-                            @if($user->role === 'admin')
-                                <span style="background:#fef3c7; color:#92400e; font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px;">Admin</span>
+                            @if ($user->role === 'admin')
+                                <span
+                                    style="background:#fef3c7; color:#92400e; font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px;">Admin</span>
                             @else
-                                <span style="background:#f0f0ff; color:#5b5ef4; font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px;">User</span>
+                                <span
+                                    style="background:#f0f0ff; color:#5b5ef4; font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px;">User</span>
                             @endif
                         </td>
                         <td>
                             <div class="d-flex justify-content-end gap-2">
-                                <a href="{{ route('users.show', $user->id) }}" class="btn-pf-ghost text-decoration-none">View</a>
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn-pf-ghost text-decoration-none">Edit</a>
-                                <form method="POST" action="{{ route('users.destroy', $user->id) }}" onsubmit="return confirm('Delete this user?')">
+                                <a href="{{ route('users.show', $user->id) }}"
+                                    class="btn-pf-ghost text-decoration-none">View</a>
+                                <a href="{{ route('users.edit', $user->id) }}"
+                                    class="btn-pf-ghost text-decoration-none">Edit</a>
+                                <form method="POST" action="{{ route('users.destroy', $user->id) }}"
+                                    onsubmit="return confirm('Delete this user?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn-pf-danger">Delete</button>
                                 </form>
@@ -39,7 +44,9 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="pf-empty"><i class="bi bi-people"></i>No users found.</td></tr>
+                    <tr>
+                        <td colspan="6" class="pf-empty"><i class="bi bi-people"></i>No users found.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
