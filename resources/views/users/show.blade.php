@@ -1,41 +1,51 @@
 <x-app-layout>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h2 class="h4 mb-0">User Details</h2>
-                        <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-secondary">Back to List</a>
-                    </div>
+    <x-slot name="header">
+        <div class="d-flex align-items-center gap-3">
+            <a href="{{ route('users.index') }}" style="color:#6c757d; text-decoration:none; font-size:13px;">
+                <i class="bi bi-arrow-left me-1"></i>Back
+            </a>
+            <span>User Details</span>
+        </div>
+    </x-slot>
 
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-sm-4 text-muted">Full Name</div>
-                            <div class="col-sm-8 fw-bold">{{ $user->name }}</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-4 text-muted">Email Address</div>
-                            <div class="col-sm-8">{{ $user->email }}</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-4 text-muted">Username</div>
-                            <div class="col-sm-8"><code>{{ $user->username }}</code></div>
-                        </div>
-                        <div class="row mb-0">
-                            <div class="col-sm-4 text-muted">Account Role</div>
-                            <div class="col-sm-8">
-                                <span class="badge {{ $user->role === 'admin' ? 'bg-danger' : 'bg-primary' }}">
-                                    {{ ucfirst($user->role) }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+    <div style="max-width: 560px;">
+        <div class="pf-card p-4 mb-3">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div style="width:48px; height:48px; border-radius:50%; background:#5b5ef4; color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:700;">
+                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                </div>
+                <div>
+                    <div style="font-weight:600; font-size:1rem;">{{ $user->name }}</div>
+                    <div style="font-size:13px; color:#6c757d;">{{ $user->email }}</div>
+                </div>
+                @if($user->role === 'admin')
+                    <span style="margin-left:auto; background:#fef3c7; color:#92400e; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px;">Admin</span>
+                @else
+                    <span style="margin-left:auto; background:#f0f0ff; color:#5b5ef4; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px;">User</span>
+                @endif
+            </div>
 
-                    <div class="card-footer bg-light text-end">
-                        <a href="{{ route('users.edit', $user) }}" class="btn btn-warning">Edit User</a>
-                    </div>
+            <div style="border-top:1px solid #e9ecef; padding-top:1rem; display:grid; gap:.75rem;">
+                <div class="d-flex justify-content-between">
+                    <span style="font-size:13px; color:#6c757d;">Username</span>
+                    <span style="font-size:13px; font-weight:500;">{{ $user->username }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span style="font-size:13px; color:#6c757d;">Total Prompts</span>
+                    <span style="font-size:13px; font-weight:500;">{{ $user->prompts()->count() }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span style="font-size:13px; color:#6c757d;">Joined</span>
+                    <span style="font-size:13px; font-weight:500;">{{ $user->created_at->format('M d, Y') }}</span>
                 </div>
             </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a href="{{ route('users.edit', $user) }}" class="btn-pf-primary text-decoration-none">
+                <i class="bi bi-pencil me-1"></i>Edit User
+            </a>
+            <a href="{{ route('users.index') }}" class="btn-pf-ghost text-decoration-none">Back to List</a>
         </div>
     </div>
 </x-app-layout>

@@ -21,15 +21,12 @@ class PromptController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, Prompt $prompts)
+    public function index(Request $request)
     {
-
         if ($request->user()->role === 'admin') {
-            // Admin gets ALL prompts from ALL users
             $prompts = Prompt::with('user')->latest()->paginate(15);
         } else {
-            // Regular user gets only THEIR prompts
-            $prompts = $request->user()->prompts()->latest()->paginate(15);
+            $prompts = $request->user()->prompts()->with('user')->latest()->paginate(15);
         }
 
         return view('prompts.index', compact('prompts'));
